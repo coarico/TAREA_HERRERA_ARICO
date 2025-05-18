@@ -1,10 +1,14 @@
+// Definición de un componente personalizado para el pie de página (footer)
 class FooterApp extends HTMLElement {
   constructor() {
     super();
+    // Adjunta un shadow DOM para encapsular el componente
     this.attachShadow({ mode: 'open' });
   }
 
+  // Se ejecuta cuando el elemento es insertado en el DOM
   connectedCallback() {
+    // Inserta el contenido HTML y los estilos en el shadow DOM
     this.shadowRoot.innerHTML = `
       <footer>
         © 2025 Todos los derechos reservados. |
@@ -28,4 +32,5 @@ class FooterApp extends HTMLElement {
   }
 }
 
+// Define el elemento personalizado 'footer-app'
 customElements.define('footer-app', FooterApp);

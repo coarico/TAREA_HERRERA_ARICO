@@ -1,22 +1,28 @@
+// Definición de un componente personalizado para editar productos
 class EditarProducto extends HTMLElement {
   constructor() {
     super();
+    // Adjunta un shadow DOM para encapsular el componente
     this.attachShadow({ mode: 'open' });
   }
 
+  // Observa cambios en el atributo 'id-producto'
   static get observedAttributes() {
     return ['id-producto'];
   }
 
+  // Se ejecuta cuando cambia el atributo observado
   attributeChangedCallback(name, oldVal, newVal) {
     this.idProducto = parseInt(newVal);
     this.render();
   }
 
+  // Renderiza el formulario de edición con los datos del producto
   render = () => {
-    const producto = getProductoPorId(this.idProducto);
+    const producto = getProductoPorId(this.idProducto); // Obtiene el producto por ID
     if (!producto) return;
 
+    // Inserta el formulario en el shadow DOM
     this.shadowRoot.innerHTML = `
       <form>
         <input name="nombre" value="${producto.nombre}" required>
@@ -31,9 +37,11 @@ class EditarProducto extends HTMLElement {
       </style>
     `;
 
+    // Maneja el evento de envío del formulario
     this.shadowRoot.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault();
       const f = e.target;
+      // Crea un objeto con los datos actualizados
       const actualizado = {
         id: this.idProducto,
         nombre: f.nombre.value,
@@ -42,6 +50,7 @@ class EditarProducto extends HTMLElement {
         descripcion: f.descripcion.value
       };
 
+      // Actualiza el producto y muestra la lista de productos
       actualizarProducto(actualizado);
       document.querySelector('#editar').style.display = 'none';
       document.querySelector('#registro').style.display = 'block';
@@ -50,4 +59,5 @@ class EditarProducto extends HTMLElement {
   };
 }
 
+// Define el elemento personalizado 'editar-producto'
 customElements.define('editar-producto', EditarProducto);
